@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/X-UI-KubeView.Application/X-UI-KubeView.Application.csproj" />
+    <Project Path="src/X-UI-KubeView.Desktop/X-UI-KubeView.Desktop.csproj" />
+    <Project Path="src/X-UI-KubeView.Domain/X-UI-KubeView.Domain.csproj" />
+    <Project Path="src/X-UI-KubeView.Infrastructure/X-UI-KubeView.Infrastructure.csproj" />
+  </Folder>
+</Solution>
