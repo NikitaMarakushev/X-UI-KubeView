@@ -14,11 +14,11 @@ class Program
             .ConfigureServices((context, services) =>
             {
                 services.AddSingleton<IContainerService, DockerContainerService>();
+                services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(X_UI_KubeView.Application.Containers.GetContainersQuery).Assembly));
             });
     public static int Main(string[] args)
     {
         var host = BuildHost(args).Build();
-
         return BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 

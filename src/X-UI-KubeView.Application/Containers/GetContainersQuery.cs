@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using System.ComponentModel;
 using X_UI_KubeView.Domain;
 using Container = X_UI_KubeView.Domain.Container;
 
@@ -9,14 +8,17 @@ public record GetContainersQuery : IRequest<IReadOnlyList<Container>>;
 
 public class GetContainersQueryHandler : IRequestHandler<GetContainersQuery, IReadOnlyList<Container>>
 {
-    public Task<IReadOnlyList<Container>> Handle(GetContainersQuery request, CancellationToken cancellationToken)
-    {
-        var mockContainers = new List<Container>
-        {
-            new Container("1", "test-nginx", "nginx:latest", "running"),
-            new Container("2", "test-redis", "redis:alpine", "exited")
-        };
+    private readonly IContainerService _containerService;
 
-        return Task.FromResult<IReadOnlyList<Container>>(mockContainers);
+    public GetContainersQueryHandler(IContainerService containerService)
+    {
+        _containerService = containerService;
+    }
+
+    public async Task<IReadOnlyList<Container>> Handle(
+        GetContainersQuery request,
+        CancellationToken cancellationToken)
+    {
+        return await _containerService.GetContainersAsync(cancellationToken);
     }
 }
