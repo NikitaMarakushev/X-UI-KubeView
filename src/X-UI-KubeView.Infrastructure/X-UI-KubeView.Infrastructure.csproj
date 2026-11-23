@@ -11,4 +11,9 @@
     <PackageReference Include="Docker.DotNet" Version="3.125.15" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\X-UI-KubeView.Application\X-UI-KubeView.Application.csproj" />
+    <ProjectReference Include="..\X-UI-KubeView.Domain\X-UI-KubeView.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
