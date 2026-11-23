@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using System.ComponentModel;
 using X_UI_KubeView.Domain;
+using Container = X_UI_KubeView.Domain.Container;
 
 namespace X_UI_KubeView.Application.Containers;
 
