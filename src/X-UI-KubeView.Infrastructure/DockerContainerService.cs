@@ -15,8 +15,8 @@ public class DockerContainerService : IContainerService
 
     public DockerContainerService()
     {
-
-        var config = new DockerClientConfiguration();
+        var config = new DockerClientConfiguration(
+            new Uri("tcp://localhost:2375"));
 
         _dockerClient = config.CreateClient();
     }
