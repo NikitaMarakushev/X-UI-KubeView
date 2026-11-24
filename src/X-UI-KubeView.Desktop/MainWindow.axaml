@@ -3,7 +3,67 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="X_UI_KubeView.Desktop.MainWindow"
-        Title="X_UI_KubeView.Desktop">
-    Welcome to Avalonia!
+        x:Class="X_UI_KubeView.Desktop.Views.MainWindow"
+        xmlns:vm="using:X_UI_KubeView.Desktop.ViewModels"
+        Title="KubeView - Docker Container Manager"
+        Width="800" Height="600">
+
+	<Design.DataContext>
+		<vm:ContainersViewModel/>
+	</Design.DataContext>
+
+	<Grid Margin="20">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,20">
+			<TextBlock Text="Docker Containers"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"/>
+			<Button Content="Refresh"
+                    Command="{Binding LoadContainersCommand}"
+                    Margin="20,0,0,0"
+                    Padding="10,5"/>
+		</StackPanel>
+
+		<TextBlock Grid.Row="1"
+                   Text="{Binding ErrorMessage}"
+                   Foreground="Red"
+                   IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                   Margin="0,0,0,10"/>
+
+		<ProgressBar Grid.Row="1"
+                     IsIndeterminate="True"
+                     IsVisible="{Binding IsLoading}"
+                     VerticalAlignment="Top"/>
+
+		<ListBox Grid.Row="1"
+                 ItemsSource="{Binding Containers}"
+                 IsVisible="{Binding !IsLoading}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Grid ColumnDefinitions="100,*,150,100" Margin="5">
+						<TextBlock Text="{Binding Id}" FontWeight="Bold"/>
+						<TextBlock Text="{Binding Name}" Grid.Column="1" Margin="10,0"/>
+						<TextBlock Text="{Binding Image}" Grid.Column="2" Foreground="Gray"/>
+						<TextBlock Text="{Binding Status}" Grid.Column="3">
+							<TextBlock.Style>
+								<Style TargetType="TextBlock">
+									<Setter Property="Foreground" Value="Green"/>
+									<Style.Triggers>
+										<DataTrigger Binding="{Binding Status}" Value="exited">
+											<Setter Property="Foreground" Value="Red"/>
+										</DataTrigger>
+									</Style.Triggers>
+								</Style>
+							</TextBlock.Style>
+						</TextBlock>
+					</Grid>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</Grid>
 </Window>

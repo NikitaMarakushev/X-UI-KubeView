@@ -1,6 +1,9 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using Microsoft.Extensions.Hosting.Internal;
+using System;
+using X_UI_KubeView.Desktop.Views;
 
 namespace X_UI_KubeView.Desktop;
 
