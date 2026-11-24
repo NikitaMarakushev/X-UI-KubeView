@@ -1,9 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using MediatR;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MediatR;
 using X_UI_KubeView.Application.Containers;
 using X_UI_KubeView.Domain;
 using Container = X_UI_KubeView.Domain.Container;
@@ -21,6 +21,9 @@ public partial class ContainersViewModel : ObservableObject
     private bool _isLoading;
 
     [ObservableProperty]
+    private bool _hasError;
+
+    [ObservableProperty]
     private string? _errorMessage;
 
     public ContainersViewModel(IMediator mediator)
@@ -28,22 +31,22 @@ public partial class ContainersViewModel : ObservableObject
         _mediator = mediator;
     }
 
-
     [RelayCommand]
     private async Task LoadContainersAsync()
     {
         try
         {
             IsLoading = true;
+            HasError = false;
             ErrorMessage = null;
 
             var containers = await _mediator.Send(new GetContainersQuery());
-
             Containers = new ObservableCollection<Container>(containers);
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Ошибка подключения к Docker: {ex.Message}";
+            HasError = true;
+            ErrorMessage = $"Ошибка подключения к Docker. Убедитесь, что Docker Desktop запущен.\nДетали: {ex.Message}";
         }
         finally
         {
