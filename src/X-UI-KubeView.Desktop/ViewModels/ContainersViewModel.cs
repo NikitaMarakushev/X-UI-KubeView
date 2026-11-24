@@ -26,6 +26,9 @@ public partial class ContainersViewModel : ObservableObject
     [ObservableProperty]
     private string? _errorMessage;
 
+    [ObservableProperty]
+    private bool _isDataVisible;
+
     public ContainersViewModel(IMediator mediator)
     {
         _mediator = mediator;
@@ -39,14 +42,21 @@ public partial class ContainersViewModel : ObservableObject
             IsLoading = true;
             HasError = false;
             ErrorMessage = null;
+            IsDataVisible = false;
 
             var containers = await _mediator.Send(new GetContainersQuery());
             Containers = new ObservableCollection<Container>(containers);
+
+            HasError = containers.Count == 0;
+            ErrorMessage = containers.Count == 0 ? "Контейнеры не найдены. Убедитесь, что Docker запущен." : null;
+            IsDataVisible = containers.Count > 0;
         }
         catch (Exception ex)
         {
             HasError = true;
-            ErrorMessage = $"Ошибка подключения к Docker. Убедитесь, что Docker Desktop запущен.\nДетали: {ex.Message}";
+            IsDataVisible = false;
+            ErrorMessage = $"Ошибка подключения к Docker. Убедитесь, что WSL запущен и Docker доступен.\nДетали: {ex.Message}";
+            Containers.Clear();
         }
         finally
         {

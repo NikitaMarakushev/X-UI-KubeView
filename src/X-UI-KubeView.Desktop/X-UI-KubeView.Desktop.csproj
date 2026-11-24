@@ -23,5 +23,8 @@
     <ProjectReference Include="..\X-UI-KubeView.Infrastructure\X-UI-KubeView.Infrastructure.csproj" />
     <ProjectReference Include="..\X-UI-KubeView.Application\X-UI-KubeView.Application.csproj" />
     <ProjectReference Include="..\X-UI-KubeView.Domain\X-UI-KubeView.Domain.csproj" />
+	<None Update="appsettings.json">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
   </ItemGroup>
 </Project>

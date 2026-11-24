@@ -28,23 +28,29 @@
                     Padding="10,5"/>
 		</StackPanel>
 
+		<StackPanel Grid.Row="1"
+                    IsVisible="{Binding IsLoading}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+			<ProgressBar IsIndeterminate="True" Width="200" Margin="0,0,0,10"/>
+			<TextBlock Text="Загрузка контейнеров..."
+                       HorizontalAlignment="Center"
+                       Foreground="Gray"/>
+		</StackPanel>
 
 		<TextBlock Grid.Row="1"
                    Text="{Binding ErrorMessage}"
                    Foreground="Red"
                    IsVisible="{Binding HasError}"
                    TextWrapping="Wrap"
-                   Margin="0,0,0,10"/>
-
-		<ProgressBar Grid.Row="1"
-                     IsIndeterminate="True"
-                     IsVisible="{Binding IsLoading}"
-                     VerticalAlignment="Top"
-                     Margin="0,0,0,10"/>
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="16"
+                   Margin="20"/>
 
 		<ListBox Grid.Row="1"
                  ItemsSource="{Binding Containers}"
-                 IsVisible="{Binding !IsLoading}">
+                 IsVisible="{Binding IsDataVisible}">
 			<ListBox.ItemTemplate>
 				<DataTemplate x:DataType="domain:Container">
 					<Grid ColumnDefinitions="100,*,150,100" Margin="5">
@@ -54,7 +60,7 @@
 						<TextBlock Text="{Binding Status}" Grid.Column="3" Foreground="Green"/>
 					</Grid>
 				</DataTemplate>
-				</ListBox.ItemTemplate>
-			</ListBox>
+			</ListBox.ItemTemplate>
+		</ListBox>
 	</Grid>
 </Window>

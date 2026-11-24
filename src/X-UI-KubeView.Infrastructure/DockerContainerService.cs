@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Docker.DotNet;
 using Docker.DotNet.Models;
+using Microsoft.Extensions.Options;
 using X_UI_KubeView.Domain;
 
 namespace X_UI_KubeView.Infrastructure;
@@ -13,10 +14,10 @@ public class DockerContainerService : IContainerService
 {
     private readonly DockerClient _dockerClient;
 
-    public DockerContainerService()
+    public DockerContainerService(IOptions<DockerSettings> settings)
     {
-        var config = new DockerClientConfiguration(
-            new Uri("tcp://localhost:2375"));
+        var uri = new Uri("tcp://localhost:2375");
+        var config = new DockerClientConfiguration(uri);
 
         _dockerClient = config.CreateClient();
     }

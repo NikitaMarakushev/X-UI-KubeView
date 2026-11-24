@@ -15,10 +15,14 @@ class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((context, services) =>
             {
+                services.Configure<DockerSettings>(context.Configuration.GetSection("Docker"));
+
                 services.AddSingleton<IContainerService, DockerContainerService>();
-                services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(X_UI_KubeView.Application.Containers.GetContainersQuery).Assembly));
+                services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(
+                    typeof(X_UI_KubeView.Application.Containers.GetContainersQuery).Assembly));
                 services.AddTransient<ViewModels.ContainersViewModel>();
             });
+
     public static int Main(string[] args)
     {
         var host = BuildHost(args).Build();
