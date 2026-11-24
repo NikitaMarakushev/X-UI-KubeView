@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Docker.DotNet;
@@ -34,5 +36,53 @@ public class DockerContainerService : IContainerService
             Image: c.Image,
             Status: c.State
         )).ToList().AsReadOnly();
+    }
+
+    public async IAsyncEnumerable<string> GetContainerLogsAsync(
+        string containerId,
+        [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        var parameters = new ContainerLogsParameters
+        {
+            ShowStdout = true,
+            ShowStderr = true,
+            Follow = true,
+            Tail = "100"
+        };
+
+        using var stream = await _dockerClient.Containers.GetContainerLogsAsync(
+            containerId,
+            false,
+            parameters,
+            cancellationToken);
+
+        var buffer = new byte[8192];
+        var lineBuffer = new StringBuilder();
+
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            var result = await stream.ReadOutputAsync(buffer, 0, buffer.Length, cancellationToken);
+
+            if (result.Count == 0)
+            {
+                if (lineBuffer.Length > 0)
+                {
+                    yield return lineBuffer.ToString();
+                }
+                break;
+            }
+
+            string chunk = Encoding.UTF8.GetString(buffer, 0, result.Count);
+            lineBuffer.Append(chunk);
+
+            while (lineBuffer.ToString().Contains('\n'))
+            {
+                int newlineIndex = lineBuffer.ToString().IndexOf('\n');
+                string line = lineBuffer.ToString().Substring(0, newlineIndex).TrimEnd('\r');
+                lineBuffer.Remove(0, newlineIndex + 1);
+
+                yield return line;
+            }
+        }
     }
 }

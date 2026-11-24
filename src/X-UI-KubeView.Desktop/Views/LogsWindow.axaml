@@ -1,0 +1,34 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:X_UI_KubeView.Desktop.ViewModels"
+        x:Class="X_UI_KubeView.Desktop.Views.LogsWindow"
+        x:DataType="vm:ContainerLogsViewModel"
+        Title="{Binding ContainerName}"
+        Width="900" Height="600">
+
+	<Grid Margin="10">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<TextBlock Grid.Row="0" Text="{Binding ContainerName}" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
+
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+			<TextBox Text="{Binding LogText}"
+                     IsReadOnly="True"
+                     AcceptsReturn="True"
+                     TextWrapping="NoWrap"
+                     FontFamily="Consolas, 'Courier New', monospace"
+                     Background="#1E1E1E"
+                     Foreground="#D4D4D4"
+                     BorderThickness="0"/>
+		</ScrollViewer>
+
+		<StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+			<ProgressBar IsIndeterminate="True" Width="100" IsVisible="{Binding IsLoading}" Margin="0,0,10,0"/>
+			<Button Content="Остановить" Command="{Binding StopLogsCommand}" IsEnabled="{Binding IsLoading}" Width="100"/>
+		</StackPanel>
+	</Grid>
+</Window>

@@ -63,4 +63,17 @@ public partial class ContainersViewModel : ObservableObject
             IsLoading = false;
         }
     }
+
+    [RelayCommand]
+    private void ViewLogs(Container container)
+    {
+        var logsViewModel = new ContainerLogsViewModel(_mediator);
+        var logsWindow = new Views.LogsWindow();
+
+        var mainWindow = (App.Current.ApplicationLifetime as Avalonia.Controls.ApplicationLifetimes.IClassicDesktopStyleApplicationLifetime)?.MainWindow;
+
+        logsWindow.Show(mainWindow!);
+
+        logsWindow.StartLogs(container.Id, container.Name, logsViewModel);
+    }
 }

@@ -53,11 +53,18 @@
                  IsVisible="{Binding IsDataVisible}">
 			<ListBox.ItemTemplate>
 				<DataTemplate x:DataType="domain:Container">
-					<Grid ColumnDefinitions="100,*,150,100" Margin="5">
+					<Grid ColumnDefinitions="100,*,150,100,80" Margin="5">
 						<TextBlock Text="{Binding Id}" FontWeight="Bold"/>
 						<TextBlock Text="{Binding Name}" Grid.Column="1" Margin="10,0"/>
 						<TextBlock Text="{Binding Image}" Grid.Column="2" Foreground="Gray"/>
 						<TextBlock Text="{Binding Status}" Grid.Column="3" Foreground="Green"/>
+
+						<Button Content="Logs"
+								Grid.Column="4"
+								Command="{Binding $parent[ListBox].DataContext.ViewLogsCommand}"
+								CommandParameter="{Binding}"
+								HorizontalAlignment="Right"
+								Padding="5,2"/>
 					</Grid>
 				</DataTemplate>
 			</ListBox.ItemTemplate>

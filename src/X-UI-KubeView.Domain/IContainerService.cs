@@ -3,4 +3,6 @@
 public interface IContainerService
 {
     Task<IReadOnlyList<Container>> GetContainersAsync(CancellationToken cancellationToken);
+
+    IAsyncEnumerable<string> GetContainerLogsAsync(string containerId, CancellationToken cancellationToken);
 }
