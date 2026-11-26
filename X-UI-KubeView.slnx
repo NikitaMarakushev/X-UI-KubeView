@@ -5,4 +5,7 @@
     <Project Path="src/X-UI-KubeView.Domain/X-UI-KubeView.Domain.csproj" />
     <Project Path="src/X-UI-KubeView.Infrastructure/X-UI-KubeView.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/X-UI-KubeView.Application.Tests/X-UI-KubeView.Application.Tests.csproj" />
+  </Folder>
 </Solution>
