@@ -85,4 +85,14 @@ public class DockerContainerService : IContainerService
             }
         }
     }
+
+    public async Task StartContainerAsync(string containerId, CancellationToken cancellationToken)
+    {
+        await _dockerClient.Containers.StartContainerAsync(containerId, new ContainerStartParameters(), cancellationToken);
+    }
+
+    public async Task StopContainerAsync(string containerId, CancellationToken cancellationToken)
+    {
+        await _dockerClient.Containers.StopContainerAsync(containerId, new ContainerStopParameters { WaitBeforeKillSeconds = 10 }, cancellationToken);
+    }
 }

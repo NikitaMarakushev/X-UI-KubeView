@@ -76,4 +76,18 @@ public partial class ContainersViewModel : ObservableObject
 
         logsWindow.StartLogs(container.Id, container.Name, logsViewModel);
     }
+
+    [RelayCommand]
+    private async Task StartContainerAsync(Container container)
+    {
+        await _mediator.Send(new X_UI_KubeView.Application.Containers.StartContainerCommand(container.Id));
+        await LoadContainersAsync();
+    }
+
+    [RelayCommand]
+    private async Task StopContainerAsync(Container container)
+    {
+        await _mediator.Send(new X_UI_KubeView.Application.Containers.StopContainerCommand(container.Id));
+        await LoadContainersAsync();
+    }
 }

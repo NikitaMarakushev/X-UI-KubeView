@@ -17,3 +17,6 @@ to run:
 
 ### log of certain container
 ![alt text](image-4.png)
+
+### you can see logs, run or even stop containers
+![alt text](image-1.png)
